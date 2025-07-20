@@ -1,0 +1,270 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flirty Adventure</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container" id="page1">
+        <h1>Welcome to a Sizzling Flirty Adventure with Aryan!</h1>
+        <p>Tell us a bit about you to get started...</p>
+        <input type="text" id="userName" placeholder="Your Name">
+        <select id="gender">
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Cutie</option>
+        </select>
+        <div id="error1" class="error hidden">Please enter your name and select a gender!</div>
+        <button onclick="goToPage2()">Dive In</button>
+    </div>
+
+    <div class="container hidden" id="page2">
+        <h1>Hey, <span id="nameDisplay1"></span>!</h1>
+        <p>Want it sweet or downright naughty?</p>
+        <button onclick="chooseFlirt('filtered')">Filtered (Sweet & Playful)</button>
+        <button onclick="chooseFlirt('unfiltered')">Unfiltered (Wild & Cheeky)</button>
+    </div>
+
+    <div class="container hidden" id="page3">
+        <h1><span id="nameDisplay2"></span>, let's turn up the heat!</h1>
+        <p class="flirt-text" id="flirtText3"></p>
+        <button onclick="goToPage(4)">Keep It Coming</button>
+    </div>
+
+    <div class="container hidden" id="page4">
+        <h1>Oh, <span id="nameDisplay3"></span>!</h1>
+        <p class="flirt-text" id="flirtText4"></p>
+        <input type="text" id="underwearColor" placeholder="What color's that secret layer you're rocking?" class="hidden">
+        <div id="error4" class="error hidden">Don't be shy, spill the color!</div>
+        <button onclick="goToPage(5)">Get Naughtier</button>
+    </div>
+
+    <div class="container hidden" id="page5">
+        <h1>Wow, <span id="nameDisplay4"></span>!</h1>
+        <p class="flirt-text" id="flirtText5"></p>
+        <input type="text" id="bodyPart" placeholder="What's your fave body part to flaunt?" class="hidden">
+        <div id="error5" class="error hidden">Come on, tell us what you're proud of!</div>
+        <button onclick="goToPage(6)">More, Please!</button>
+    </div>
+
+    <div class="container hidden" id="page6">
+        <h1><span id="nameDisplay5"></span>, you're trouble!</h1>
+        <p class="flirt-text" id="flirtText6"></p>
+        <input type="text" id="fantasy" placeholder="What's your flirty fantasy spot?" class="hidden">
+        <div id="error6" class="error hidden">Don't hold back, share that fantasy!</div>
+        <button onclick="goToPage(7)">Final Tease</button>
+    </div>
+
+    <div class="container hidden" id="page7">
+        <h1><span id="nameDisplay6"></span>, you're a heartbreaker!</h1>
+        <p class="flirt-text" id="flirtText7"></p>
+        <button onclick="restart()">Play Again</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html><style>body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #ff1493, #4b0082);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: #fff;
+    overflow: hidden;
+    position: relative;
+}
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50"><path d="M25 10c-5 10-15 15-15 25 5-10 15-10 15-20 5 10 15 10 15 20-5-10-15-15-15-25z" fill="rgba(255,255,255,0.2)"/></svg>') repeat;
+    animation: floatHearts 20s linear infinite;
+    z-index: -1;
+}
+@keyframes floatHearts {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 -1000px; }
+}
+.container {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+    animation: fadeIn 0.5s ease-in;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.hidden {
+    display: none;
+}
+h1 {
+    color: #ff69b4;
+    font-size: 2.2em;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+}
+input, select, button {
+    padding: 12px;
+    margin: 10px;
+    border: 2px solid #ff69b4;
+    border-radius: 8px;
+    font-size: 1.1em;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+input::placeholder, select {
+    color: #ccc;
+}
+button {
+    background: #ff69b4;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+}
+button:hover {
+    background: #ff1493;
+    transform: scale(1.1);
+}
+.flirt-text {
+    font-size: 1.3em;
+    margin: 20px 0;
+    color: #fff;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+.error {
+    color: #ff4040;
+    font-size: 0.9em;
+    margin: 10px 0;
+}</style><script>let userData = {
+    name: '',
+    gender: '',
+    flirtType: '',
+    underwearColor: '',
+    bodyPart: '',
+    fantasy: ''
+};
+
+function goToPage2() {
+    const name = document.getElementById('userName').value.trim();
+    const gender = document.getElementById('gender').value;
+    const error = document.getElementById('error1');
+
+    if (name && gender) {
+        userData.name = name;
+        userData.gender = gender;
+        document.getElementById('page1').classList.add('hidden');
+        document.getElementById('page2').classList.remove('hidden');
+        document.getElementById('nameDisplay1').textContent = name;
+    } else {
+        error.classList.remove('hidden');
+    }
+}
+
+function chooseFlirt(type) {
+    userData.flirtType = type;
+    document.getElementById('page2').classList.add('hidden');
+    document.getElementById('page3').classList.remove('hidden');
+    document.getElementById('nameDisplay2').textContent = userData.name;
+    document.getElementById('flirtText3').textContent = getFlirtText(3);
+    if (type === 'unfiltered') {
+        document.getElementById('underwearColor').classList.remove('hidden');
+    }
+}
+
+function goToPage(page) {
+    if (page === 5 && userData.flirtType === 'unfiltered') {
+        const color = document.getElementById('underwearColor').value.trim();
+        const error = document.getElementById('error4');
+        if (!color) {
+            error.classList.remove('hidden');
+            return;
+        }
+        userData.underwearColor = color;
+    }
+    if (page === 6 && userData.flirtType === 'unfiltered') {
+        const bodyPart = document.getElementById('bodyPart').value.trim();
+        const error = document.getElementById('error5');
+        if (!bodyPart) {
+            error.classList.remove('hidden');
+            return;
+        }
+        userData.bodyPart = bodyPart;
+    }
+    if (page === 7 && userData.flirtType === 'unfiltered') {
+        const fantasy = document.getElementById('fantasy').value.trim();
+        const error = document.getElementById('error6');
+        if (!fantasy) {
+            error.classList.remove('hidden');
+            return;
+        }
+        userData.fantasy = fantasy;
+    }
+
+    document.getElementById(`page${page-1}`).classList.add('hidden');
+    document.getElementById(`page${page}`).classList.remove('hidden');
+    document.getElementById(`nameDisplay${page-1}`).textContent = userData.name;
+    document.getElementById(`flirtText${page}`).textContent = getFlirtText(page);
+    if (page === 5 && userData.flirtType === 'unfiltered') {
+        document.getElementById('bodyPart').classList.remove('hidden');
+    }
+    if (page === 6 && userData.flirtType === 'unfiltered') {
+        document.getElementById('fantasy').classList.remove('hidden');
+    }
+}
+
+function getFlirtText(page) {
+    const { name, gender, flirtType, underwearColor, bodyPart, fantasy } = userData;
+    const isUnfiltered = flirtType === 'unfiltered';
+
+    if (page === 3) {
+        return isUnfiltered
+            ? `${name}, is it just me, or is the room melting from your vibe? 😈`
+            : `${name}, your charm's like a sparkler--lighting up my whole world! 😊`;
+    } else if (page === 4) {
+        return isUnfiltered
+            ? `${name}, you're pure mischief! Dare to share the color of that cheeky little thing you wearing between your legs? 😏`
+            : `${name}, are you a star? Because you're absolutely lighting up my night! ✨`;
+    } else if (page === 5) {
+        return isUnfiltered
+            ? `${name}, ${underwearColor}? Oh, that tonight plan!Anyway, What's the body part you love to flaunt--those killer legs or that sly smile? 😘`
+            : `${name}, what's your favorite feature to get compliments on? Your eyes or that killer smile? 😍`;
+    } else if (page === 6) {
+        return isUnfiltered
+            ? `${name}, strutting that ${bodyPart}? Trouble! Where's your dream flirty fantasy like where you want to spend your precious time with that speacial person? 😜`
+            : `${name}, what's your dream date spot? A cozy café or a sunset beach walk? 🌅`;
+    } else if (page === 7) {
+        return isUnfiltered
+            ? `${name}, rocking ${underwearColor}, flaunting that ${bodyPart}, and dreaming of ${fantasy}? You're a scandal I can't resist--let's cause more chaos soon! love by Aryan 😈`
+            : `${name}, with that charm and a dream date at ${fantasy || 'a special place'}, you're unforgettable! Let's do this again! 🌟`;
+    }
+    return '';
+}
+
+function restart() {
+    userData = { name: '', gender: '', flirtType: '', underwearColor: '', bodyPart: '', fantasy: '' };
+    document.getElementById('userName').value = '';
+    document.getElementById('gender').value = '';
+    document.getElementById('underwearColor').value = '';
+    document.getElementById('bodyPart').value = '';
+    document.getElementById('fantasy').value = '';
+    document.getElementById('error1').classList.add('hidden');
+    document.getElementById('error4').classList.add('hidden');
+    document.getElementById('error5').classList.add('hidden');
+    document.getElementById('error6').classList.add('hidden');
+    document.getElementById('page7').classList.add('hidden');
+    document.getElementById('page1').classList.remove('hidden');
+}</script>
